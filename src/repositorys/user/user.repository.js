@@ -88,5 +88,4 @@ export {
   GetOneUser,
   UserAlreadyExsists,
   getUserByEmail,
-  createUser
 };

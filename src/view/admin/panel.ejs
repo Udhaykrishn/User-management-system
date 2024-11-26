@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-xl bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 dark:border dark:border-gray-700">
+      <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
+        Admin Panel
+      </h2>
+
+      <form action="/admin/signout" method="post" class="mb-6">
+        <button
+          type="submit"
+          class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+        >
+          Logout
+        </button>
+      </form>
+
+      <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded">
+        <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-600">
+          <h3 class="text-lg font-semibold text-gray-700 dark:text-white">User List</h3>
+          <a
+            href="/admin/dashboard/createUser"
+            class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm flex items-center transition duration-300"
+          >
+            <i class="fas fa-plus mr-2"></i>Add User
+          </a>
+        </div>
+
+        <% if(users && users.length > 0){ %>
+        <ul class="divide-y divide-gray-200 dark:divide-gray-600">
+          <% for(let user of users){ %>
+          <li class="px-4 py-3 flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-150 ease-in-out">
+            <div class="flex flex-col">
+              <span class="text-gray-800 dark:text-white font-medium">
+                <%= user.email %>
+              </span>
+              <span class="text-gray-500 dark:text-gray-400 text-sm">
+                <%= user.role || 'User' %>
+              </span>
+            </div>
+            <div class="flex space-x-2">
+              <form action="/admin/dashboard/edit/<%=user._id %>" method="get">
+                <button
+                  class="text-blue-500 hover:text-blue-600 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 p-2 rounded-full transition duration-300"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+              </form>
+              <button
+                onclick="deleteUser('<%=user._id %>')"
+                class="text-red-500 hover:text-red-600 bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50 p-2 rounded-full transition duration-300"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </li>
+          <% } %>
+        </ul>
+        <% } else { %>
+        <p class="text-center text-gray-500 dark:text-gray-400 p-4">No users found</p>
+        <% } %>
+      </div>
+    </div>
+
+    <script>
+      async function deleteUser(id) {
+        try {
+          console.log(id);
+          const data = await fetch(
+            `http://localhost:3002/admin/dashboard/delete/${id}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+          const result = await data.json();
+
+          if (result.deleteUser) {
+            Toastify({
+              text: "User deleted successfully",
+              duration: 2000,
+              gravity: "top",
+              position: "center",
+              backgroundColor: "linear-gradient(to right, #111827, #111827)",
+              stopOnFocus: true,
+            }).showToast();
+            
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
+          }
+        } catch (error) {
+          Toastify({
+            text: "Error deleting user",
+            duration: 2000,
+            gravity: "top",
+            position: "center",
+            backgroundColor: "linear-gradient(to right, #111827, #111827)",
+            stopOnFocus: true,
+          }).showToast();
+          console.error(error.message);
+        }
+      }
+    </script>
+  </body>
+</html>

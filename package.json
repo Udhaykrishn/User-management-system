@@ -5,12 +5,12 @@
   "type": "module",
   "imports":{
     "#utility/*":"./src/utility/*",
-    "#model/*":"./src/model",
-    "#service/*":"./src/service",
-    "#controllers":"./src/controllers",
-    "#repositorys":"./src/repositorys",
-    "#middleware":"./src/middleware",
-    "#config/*":"./src/config"
+    "#model/*":"./src/model/*",
+    "#service/*":"./src/service/*",
+    "#controllers/*":"./src/controllers/*",
+    "#repositorys/*":"./src/repositorys/*",
+    "#middleware/*":"./src/middleware/*",
+    "#config/*":"./src/config/*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -9,11 +9,6 @@ const GetAllUsers = async () => {
   }
 };
 
-const createUser = async ({ email, password }) => {
-  const newUser = new User({ email, password });
-  await newUser.save();
-};
-
 const GetOneUser = async (id) => {
   try {
     const user = await User.findById(id);

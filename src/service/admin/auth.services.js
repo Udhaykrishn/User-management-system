@@ -1,3 +1,4 @@
+import { findOneAdmin } from "#repositorys/admin/admin.repository.js";
 import { signToken } from "#utility/jwt.utility.js";
 
 const getAdminLogin = (req, res) => {
@@ -14,7 +15,6 @@ const adminLogin = async (req, res) => {
   }
 
   const user = await findOneAdmin(email);
-  console.log(Admin);
   console.log(user);
   if (!user) {
     return res.render("admin/login", {

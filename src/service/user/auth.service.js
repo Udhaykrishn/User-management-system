@@ -1,5 +1,9 @@
-import { User } from "../../model/user.model.js";
-import { signToken } from "../../utility/jwt.utility.js";
+import {
+  CreateOneUser,
+  getUserByEmail,
+  UserAlreadyExsists,
+} from "#repositorys/user/user.repository.js";
+import { signToken } from "#utility/jwt.utility.js";
 
 const getLogin = (req, res) => {
   return res.render("user/login", { error: null });
@@ -15,7 +19,7 @@ const postLogin = async (req, res) => {
       });
     }
 
-    const findUser = await User.findOne({ email });
+    const findUser = await getUserByEmail(email);
 
     if (!findUser) {
       return res.render("user/login", {
@@ -61,14 +65,14 @@ const postSignUp = async (req, res) => {
       });
     }
 
-    const alreadyExists = await User.findOne({ email });
+    const alreadyExists = await UserAlreadyExsists(email);
 
     if (alreadyExists) {
       return res.render("user/signup", { error: "User is already exsist" });
     }
 
-    const newUser = new User({ email, password });
-    await newUser.save();
+    const user = await CreateOneUser({ email, password });
+    await user.save();
 
     return res.redirect("/user/signin");
   } catch (error) {

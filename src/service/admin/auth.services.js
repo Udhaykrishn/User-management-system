@@ -1,5 +1,4 @@
-import { Admin } from "../../model/admin.model.js";
-import { signToken } from "../../utility/jwt.utility.js";
+import { signToken } from "#utility/jwt.utility.js";
 
 const getAdminLogin = (req, res) => {
   return res.render("admin/login", { error: null });
@@ -14,7 +13,7 @@ const adminLogin = async (req, res) => {
     });
   }
 
-  const user = await Admin.findOne({ email });
+  const user = await findOneAdmin(email);
   console.log(Admin);
   console.log(user);
   if (!user) {

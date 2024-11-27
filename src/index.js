@@ -1,13 +1,12 @@
 import express from "express";
 import { config } from "dotenv";
 import nocache from "nocache";
-import srcPath from "./utility/path.utility.js";
+import srcPath from "#utility/path.utility.js";
 import path from "path";
 import createMorganStreamFile from "#service/morgan/morgan.service.js";
 import connectDB from "#config/db.config.js";
-import Users from "#controller/user/login.controller.js";
-import Admin from "#controller/admin/admin.controller.js";
-import { authMiddleware } from "#middleware/jwt.middleware.js";
+import Users from "#controller/user.controller.js";
+import Admin from "#controller/admin.controller.js";
 import { userLogin, userSignUp } from "#service/user/login.service.js";
 
 config();

@@ -22,5 +22,3 @@ const isAuthenticated = (req, res, next) => {
 
 export { isAuthenticated };
 
-
-export { AuthCheck };

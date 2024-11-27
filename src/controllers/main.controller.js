@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { AuthCheck } from "#middleware/jwt.middleware.js";
+import { AuthCheck } from "#middleware/authchecker.middleware.js";
 
 const router = Router();
 

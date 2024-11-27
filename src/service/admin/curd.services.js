@@ -19,7 +19,7 @@ const getCreateUser = (_, res) => {
   return res.render("admin/createUserForm", { error: null });
 };
 
-const CreateOneUser = async (req, res) => {
+const createOneUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {

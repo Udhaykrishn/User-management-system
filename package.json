@@ -10,7 +10,8 @@
     "#controllers/*":"./src/controllers/*",
     "#repositorys/*":"./src/repositorys/*",
     "#middleware/*":"./src/middleware/*",
-    "#config/*":"./src/config/*"
+    "#config/*":"./src/config/*",
+    "#controller/*":"./src/controllers"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

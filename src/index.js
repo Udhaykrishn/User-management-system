@@ -8,6 +8,7 @@ import connectDB from "#config/db.config.js";
 import Users from "#controller/user.controller.js";
 import Admin from "#controller/admin.controller.js";
 import { userLogin, userSignUp } from "#service/user/login.service.js";
+import errorHanlder from "#middleware/error.middleware.js";
 
 config();
 
@@ -30,6 +31,8 @@ const init = async () => {
     app.use("/api/admin", Admin);
     app.use("/api/signup", userSignUp);
     app.use("/api/login", userLogin);
+
+    app.use(errorHanlder);
 
     const PORT = process.env.PORT;
 

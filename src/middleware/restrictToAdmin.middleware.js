@@ -1,4 +1,4 @@
-import { verifyToken } from "../utility/jwt.utility.js";
+import { verifyToken } from "#utility/jwt.utility.js";
 
 const restrictToAdmin = (req, res, next) => {
   try {
@@ -6,7 +6,7 @@ const restrictToAdmin = (req, res, next) => {
     const userToken = req.cookies?.authToken;
 
     if (userToken) {
-      return res.redirect("/user/dashboard")
+      return res.redirect("/user/dashboard");
     }
 
     if (token) {
@@ -21,7 +21,7 @@ const restrictToAdmin = (req, res, next) => {
         });
       }
     }
-    console.log("This is login")
+    console.log("This is login");
     return res.redirect("/admin/signin");
   } catch (error) {
     console.error("Error verifying token", error.message);

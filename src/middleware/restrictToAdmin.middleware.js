@@ -21,7 +21,6 @@ const restrictToAdmin = (req, res, next) => {
         });
       }
     }
-    console.log("This is login");
     return res.redirect("/admin/signin");
   } catch (error) {
     console.error("Error verifying token", error.message);

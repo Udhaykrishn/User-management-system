@@ -3,26 +3,26 @@ import {
   adminLogin,
   getAdminLogin,
   adminLogout,
-} from "../services/admin/login.services.js";
+} from "#service/admin/auth.services.js";
 import {
   CreateOneUser,
   deleteUser,
   editUser,
   getEditUser,
   getCreateUser,
-} from "../services/admin/curd.services.js";
-import { adminCheck } from "../middleware/adminchecker.middleware.js";
-import { restrictToAdmin } from "../middleware/restrictToAdmin.middleware.js";
-import { User } from "../model/user.model.js";
+} from "#service/admin/curd.services.js";
+import { restrictToAdmin } from "#middleware/restrictToAdmin.middleware.js";
+import { GetAllUsers } from "#repositorys/user/user.repository.js";
+
 const router = Router();
 
 router
-  .get("/signin", adminCheck, getAdminLogin)
+  .get("/signin", restrictToAdmin, getAdminLogin)
   .post("/signin", adminLogin)
   .post("/signout", adminLogout);
 
 router.get("/dashboard", restrictToAdmin, async (req, res) => {
-  const users = await User.find();
+  const users = await GetAllUsers();
 
   return res.render("admin/panel", { users: users });
 });

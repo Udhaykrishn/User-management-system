@@ -1,8 +1,15 @@
-import { User } from "../../model/user.model.js";
+import {
+  CreateOneUser,
+  DeleteOneUser,
+  GetAllUsers,
+  GetOneUser,
+  getUserByEmail,
+  UpdateOneUser,
+} from "#repositorys/user/user.repository.js";
 
 const getAlluser = async (req, res) => {
   try {
-    return await User.find();
+    return await GetAllUsers();
   } catch (error) {
     throw new Error("Error during fetch user information");
   }
@@ -22,7 +29,7 @@ const CreateOneUser = async (req, res) => {
       });
     }
 
-    const existUser = await User.findOne({ email });
+    const existUser = await getUserByEmail(email);
 
     if (existUser) {
       return res.render("admin/createUserForm", {
@@ -30,13 +37,12 @@ const CreateOneUser = async (req, res) => {
       });
     }
 
-    const newUser = new User({ email, password });
+    const newUser = await CreateOneUser({ email, password });
 
-    const savedUser = (await newUser.save()).toObject();
+    const savedUser = await newUser.toObject();
 
-    delete savedUser.password;
+    delete savedUser.password; // deletng the password after save the user data
 
-    // res.render("admin/panel", { message: "User created successfully" });
     res.redirect("/admin/dashboard");
   } catch (error) {
     return res.render("admin/createUserForm", { error: error.message });
@@ -47,7 +53,7 @@ const deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await User.findByIdAndDelete(id);
+    const user = await DeleteOneUser(id);
 
     if (!user) {
       return res
@@ -70,10 +76,7 @@ const editUser = async (req, res) => {
       return res.redirect(`/admin/dashboard/edit/${id}`);
     }
 
-    await User.findByIdAndUpdate(id, {
-      email,
-      password,
-    });
+    await UpdateOneUser(id, { email, password });
 
     return res.redirect("/admin/dashboard");
   } catch (error) {
@@ -85,7 +88,7 @@ const getEditUser = async (req, res) => {
   const { id } = req.params;
   console.log(id);
   try {
-    const user = await User.findById(id);
+    const user = await GetOneUser(id);
     res.render("admin/EditUser", { user, error: null, userId: id });
   } catch (error) {
     console.log("Error during fetch user deatils", error.message);

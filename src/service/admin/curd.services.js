@@ -6,6 +6,8 @@ import {
   getUserByEmail,
   UpdateOneUser,
 } from "#repositorys/user/user.repository.js";
+import { isEmailValid } from "#utility/emali.utility.js";
+import { passwordDecryt } from "#utility/password.utility.js";
 
 const getAlluser = async (req, res) => {
   try {
@@ -29,6 +31,14 @@ const createOneUser = async (req, res) => {
       });
     }
 
+    const validEmail = await isEmailValid(email);
+
+    if (!validEmail) {
+      return res.render("admin/createUserForm", {
+        error: "Please enter real valid address",
+      });
+    }
+
     const existUser = await getUserByEmail(email);
 
     if (existUser) {
@@ -37,13 +47,10 @@ const createOneUser = async (req, res) => {
       });
     }
 
-    const newUser = await CreateOneUser({ email, password });
+    const newUser = await CreateOneUser(email, password);
+    const savedUser = await newUser.save();
 
-    const savedUser = await newUser.toObject();
-
-    delete savedUser.password; // deletng the password after save the user data
-
-    res.redirect("/admin/dashboard");
+    return res.redirect("/admin/dashboard");
   } catch (error) {
     return res.render("admin/createUserForm", { error: error.message });
   }
@@ -86,10 +93,18 @@ const editUser = async (req, res) => {
 
 const getEditUser = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+
   try {
     const user = await GetOneUser(id);
-    res.render("admin/EditUser", { user, error: null, userId: id });
+
+    const hased = await passwordDecryt(user.password);
+
+    const payload = {
+      ...user._doc,
+      password: hased,
+    };
+
+    res.render("admin/EditUser", { user: payload, error: null, userId: id });
   } catch (error) {
     console.log("Error during fetch user deatils", error.message);
   }
@@ -98,7 +113,7 @@ const getEditUser = async (req, res) => {
 export {
   getAlluser,
   deleteUser,
-  CreateOneUser,
+  createOneUser,
   getCreateUser,
   getEditUser,
   editUser,

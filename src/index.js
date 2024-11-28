@@ -34,6 +34,12 @@ const init = async () => {
     app.use("/user", User);
     app.use("/admin", Admin);
 
+    app.all("*", (req, res, next) => {
+      const error = new Error("Route Not found");
+      error.status = 404;
+      next(error);
+    });
+
     app.use(errorHanlder);
 
     const PORT = process.env.PORT;

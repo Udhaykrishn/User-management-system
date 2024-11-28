@@ -16,9 +16,15 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   </head>
-  <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="w-full max-w-xl bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 dark:border dark:border-gray-700">
-      <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
+  <body
+    class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center justify-center p-4"
+  >
+    <div
+      class="w-full max-w-xl bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 dark:border dark:border-gray-700"
+    >
+      <h2
+        class="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6"
+      >
         Admin Panel
       </h2>
 
@@ -31,9 +37,15 @@
         </button>
       </form>
 
-      <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded">
-        <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-600">
-          <h3 class="text-lg font-semibold text-gray-700 dark:text-white">User List</h3>
+      <div
+        class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded"
+      >
+        <div
+          class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-600"
+        >
+          <h3 class="text-lg font-semibold text-gray-700 dark:text-white">
+            User List
+          </h3>
           <a
             href="/admin/dashboard/createUser"
             class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm flex items-center transition duration-300"
@@ -45,7 +57,9 @@
         <% if(users && users.length > 0){ %>
         <ul class="divide-y divide-gray-200 dark:divide-gray-600">
           <% for(let user of users){ %>
-          <li class="px-4 py-3 flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-150 ease-in-out">
+          <li
+            class="px-4 py-3 flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
+          >
             <div class="flex flex-col">
               <span class="text-gray-800 dark:text-white font-medium">
                 <%= user.email %>
@@ -73,7 +87,9 @@
           <% } %>
         </ul>
         <% } else { %>
-        <p class="text-center text-gray-500 dark:text-gray-400 p-4">No users found</p>
+        <p class="text-center text-gray-500 dark:text-gray-400 p-4">
+          No users found
+        </p>
         <% } %>
       </div>
     </div>
@@ -100,7 +116,7 @@
               backgroundColor: "linear-gradient(to right, #111827, #111827)",
               stopOnFocus: true,
             }).showToast();
-            
+
             setTimeout(() => {
               window.location.reload();
             }, 500);

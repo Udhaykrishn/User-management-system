@@ -1,21 +1,34 @@
-import { hash, verify } from "argon2";
+import encryptor from "simple-encryptor";
+
+const en = encryptor.createEncryptor("1785cfc3bc6ac7738e8b38c");
 
 const passwordHashed = async (password) => {
   try {
-    const hasedPassword = await hash(password);
-    return hasedPassword;
+    const hasedPass = en.encrypt(password);
+    return hasedPass;
   } catch (error) {
     console.log(error.message);
   }
 };
 
-const passwordCompare = async (hashedPass, password) => {
+const passwordCompare = async (hashedPass, pas) => {
   try {
-    const comparedPassword = await verify(hashedPass, password);
-    return comparedPassword;
+    const isMatch = await en.decrypt(hashedPass);
+    if (isMatch !== pas) {
+      return false;
+    }
+    return true;
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export { passwordHashed, passwordCompare };
+const passwordDecryt = async (hashedPass) => {
+  try {
+    return await en.decrypt(hashedPass);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export { passwordHashed, passwordCompare, passwordDecryt };

@@ -21,7 +21,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "argon2": "^0.41.1",
     "cookie-parser": "^1.4.7",
     "deep-email-validator": "^0.1.21",
     "dotenv": "^16.4.5",

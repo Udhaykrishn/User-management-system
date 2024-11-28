@@ -1,34 +1,31 @@
 <div align="left" style="position: relative;">
-<img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/ec559a9f6bfd399b82bb44393651661b08aaf7ba/icons/folder-markdown-open.svg" align="right" width="30%" style="margin: -20px 0 0 20px;">
+<img src="https://img.icons8.com/?size=512&id=55494&format=png" align="right" width="30%" style="margin: -20px 0 0 20px;">
 <h1>USER-MANAGEMENT-SYSTEM</h1>
 <p align="left">
 	<em><code>❯ REPLACE-ME</code></em>
 </p>
 <p align="left">
-	<img src="https://img.shields.io/github/license/Udhaykrishn/User-management-system?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
-	<img src="https://img.shields.io/github/last-commit/Udhaykrishn/User-management-system?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
-	<img src="https://img.shields.io/github/languages/top/Udhaykrishn/User-management-system?style=default&color=0080ff" alt="repo-top-language">
-	<img src="https://img.shields.io/github/languages/count/Udhaykrishn/User-management-system?style=default&color=0080ff" alt="repo-language-count">
-</p>
-<p align="left"><!-- default option, no dependency badges. -->
-</p>
+	<!-- Shields.io badges disabled, using skill icons. --></p>
+<p align="left">Built with the tools and technologies:</p>
 <p align="left">
-	<!-- default option, no dependency badges. -->
-</p>
+	<a href="https://skillicons.dev">
+		<img src="https://skillicons.dev/icons?i=express,md">
+	</a></p>
 </div>
 <br clear="right">
 
 ## 🔗 Table of Contents
 
+- [� Table of Contents](#-table-of-contents)
 - [📍 Overview](#-overview)
 - [👾 Features](#-features)
 - [📁 Project Structure](#-project-structure)
-  - [📂 Project Index](#-project-index)
+	- [📂 Project Index](#-project-index)
 - [🚀 Getting Started](#-getting-started)
-  - [☑️ Prerequisites](#-prerequisites)
-  - [⚙️ Installation](#-installation)
-  - [🤖 Usage](#🤖-usage)
-  - [🧪 Testing](#🧪-testing)
+	- [☑️ Prerequisites](#️-prerequisites)
+	- [⚙️ Installation](#️-installation)
+	- [🤖 Usage](#-usage)
+	- [🧪 Testing](#-testing)
 - [📌 Project Roadmap](#-project-roadmap)
 - [🔰 Contributing](#-contributing)
 - [🎗 License](#-license)
@@ -52,6 +49,7 @@
 
 ```sh
 └── User-management-system/
+    ├── Readme.md
     ├── package-lock.json
     ├── package.json
     └── src
@@ -262,6 +260,10 @@
 						<td><b><a href='https://github.com/Udhaykrishn/User-management-system/blob/master/src/middleware/restrictToAdmin.middleware.js'>restrictToAdmin.middleware.js</a></b></td>
 						<td><code>❯ REPLACE-ME</code></td>
 					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Udhaykrishn/User-management-system/blob/master/src/middleware/admin.middleware.js'>admin.middleware.js</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
 					</table>
 				</blockquote>
 			</details>
@@ -330,7 +332,7 @@ Install User-management-system using one of the following methods:
 
 1. Clone the User-management-system repository:
 ```sh
-❯ git clone https://github.com/Udhaykrishn/User-management-system/
+❯ git clone https://github.com/Udhaykrishn/User-management-system
 ```
 
 2. Navigate to the project directory:
@@ -389,7 +391,7 @@ Run the test suite using the following command:
 1. **Fork the Repository**: Start by forking the project repository to your github account.
 2. **Clone Locally**: Clone the forked repository to your local machine using a git client.
    ```sh
-   git clone https://github.com/Udhaykrishn/User-management-system/
+   git clone https://github.com/Udhaykrishn/User-management-system
    ```
 3. **Create a New Branch**: Always work on a new branch, giving it a descriptive name.
    ```sh

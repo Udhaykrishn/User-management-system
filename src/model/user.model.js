@@ -1,9 +1,9 @@
+import { passwordHashed } from "#utility/password.utility.js";
 import { Schema, model } from "mongoose";
-import { hash } from "argon2";
 
 const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true, minLength: 4, maxLength: 10 },
+  password: { type: String, required: true, minLength: 4},
 });
 
 userSchema.pre("save", async function (next) {
@@ -12,7 +12,7 @@ userSchema.pre("save", async function (next) {
   }
 
   try {
-    this.password = await hash(this.password);
+    this.password = await passwordHashed(this.password);
     next();
   } catch (error) {
     next(error);

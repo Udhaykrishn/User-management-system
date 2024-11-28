@@ -1,4 +1,5 @@
 import { User } from "#model/user.model.js";
+import { passwordHashed } from "#utility/password.utility.js";
 
 const GetAllUsers = async () => {
   try {
@@ -58,8 +59,15 @@ const UserAlreadyExsists = async (email) => {
 };
 
 const UpdateOneUser = async (id, updateData) => {
+  const hased = await passwordHashed(updateData.password);
+
+  const payload = {
+    ...updateData,
+    password: hased,
+  };
+
   try {
-    const updateOneUser = await User.findByIdAndUpdate(id, updateData, {
+    const updateOneUser = await User.findByIdAndUpdate(id, payload, {
       new: true,
       runValidators: true,
     });

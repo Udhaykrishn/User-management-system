@@ -3,6 +3,7 @@ import {
   getUserByEmail,
   UserAlreadyExsists,
 } from "#repositorys/user/user.repository.js";
+import { isEmailValid } from "#utility/emali.utility.js";
 import { signToken } from "#utility/jwt.utility.js";
 import { passwordCompare } from "#utility/password.utility.js";
 
@@ -65,6 +66,14 @@ const postSignUp = async (req, res) => {
     if (password !== confirm) {
       return res.render("user/signup", {
         error: "Password is does not match!",
+      });
+    }
+
+    const emailBeExists = await isEmailValid(email);
+
+    if (!emailBeExists) {
+      return res.render("user/signup", {
+        error: "Please enter valid email address ",
       });
     }
 

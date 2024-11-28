@@ -2,14 +2,11 @@ import { verifyToken } from "#utility/jwt.utility.js";
 
 const isAuthenticated = (req, res, next) => {
   const token = req.cookies.authToken;
-  console.log(token);
   if (!token) {
     return res.status(401).redirect("/user/signin");
   }
   try {
     const payload = verifyToken(token);
-
-    console.log(payload);
 
     req.user = payload;
 
@@ -21,4 +18,3 @@ const isAuthenticated = (req, res, next) => {
 };
 
 export { isAuthenticated };
-

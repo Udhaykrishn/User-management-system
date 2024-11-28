@@ -29,9 +29,9 @@ const postLogin = async (req, res) => {
       });
     }
 
-    const user = await passwordCompare(findUser.password, password);
+    const passwordMatch = await passwordCompare(findUser.password, password);
 
-    if (!user) {
+    if (!passwordMatch) {
       return res.render("user/login", {
         error: "Password is Wrong,please try again",
       });

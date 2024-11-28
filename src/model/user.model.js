@@ -6,8 +6,8 @@ const userSchema = new Schema({
   password: { type: String, required: true, minLength: 4, maxLength: 10 },
 });
 
-userSchema.pre("save", async (next) => {
-  if (!this.isModified("passwod")) {
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
     return next();
   }
 

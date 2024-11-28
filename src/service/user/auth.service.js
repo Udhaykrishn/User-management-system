@@ -4,6 +4,7 @@ import {
   UserAlreadyExsists,
 } from "#repositorys/user/user.repository.js";
 import { signToken } from "#utility/jwt.utility.js";
+import { passwordCompare } from "#utility/password.utility.js";
 
 const getLogin = (req, res) => {
   return res.render("user/login", { error: null });
@@ -27,7 +28,9 @@ const postLogin = async (req, res) => {
       });
     }
 
-    if (findUser.password !== password) {
+    const user = await passwordCompare(findUser.password, password);
+
+    if (!user) {
       return res.render("user/login", {
         error: "Password is Wrong,please try again",
       });
@@ -71,7 +74,7 @@ const postSignUp = async (req, res) => {
       return res.render("user/signup", { error: "User is already exsist" });
     }
 
-    const user = await CreateOneUser({ email, password });
+    const user = await CreateOneUser(email, password);
     await user.save();
 
     return res.redirect("/user/signin");

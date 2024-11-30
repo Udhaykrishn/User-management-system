@@ -21,7 +21,7 @@ const restrictToAdmin = (req, res, next) => {
         });
       }
     }
-    return next();
+    return res.redirect("/admin/signin");
   } catch (error) {
     console.error("Error verifying token", error.message);
     return res.status(403).json({ error: "Access denied" });

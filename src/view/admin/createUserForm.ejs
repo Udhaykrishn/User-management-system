@@ -10,6 +10,7 @@
       href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
   </head>
   <body>
     <section class="bg-gray-50 dark:bg-gray-900 h-screen">
@@ -50,15 +51,21 @@
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >Password</label
                 >
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
+                <div class="relative">
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  />
+                  <div id="password-strength" class="mt-2 text-sm"></div>
+                </div>
               </div>
-              <div class="flex items-center justify-between"></div>
+              <div class="flex items-center justify-between">
+            
+                <div id="password-suggestions" class="text-sm text-gray-500 mt-2"></div>
+              </div>
               <button
                 type="submit"
                 class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -83,6 +90,46 @@
         backgroundColor: "linear-gradient(to right, #111827, #111827)",
         stopOnFocus: true,
       }).showToast();
+    }
+
+    const passwordInput = document.getElementById("password");
+    const strengthMeter = document.getElementById("password-strength");
+    const suggestions = document.getElementById("password-suggestions");
+
+    
+    passwordInput.addEventListener("input", function () {
+      const result = zxcvbn(passwordInput.value);
+
+
+      strengthMeter.textContent = `Strength: ${["Weak", "Fair", "Good", "Strong", "Very Strong"][result.score]}`;
+      strengthMeter.className = `mt-2 text-sm ${getStrengthClass(result.score)}`;
+
+
+      suggestions.innerHTML = getSuggestions(result);
+    });
+
+
+    function getStrengthClass(score) {
+      if (score <= 1) return "text-red-500";
+      if (score === 2) return "text-yellow-500";
+      return "text-green-500";  
+    }
+
+
+    function getSuggestions(result) {
+      const suggestions = [];
+
+      if (result.score <= 1) {
+        suggestions.push("Include numbers and special characters.");
+        suggestions.push("Make your password longer (8+ characters).");
+      } else if (result.score === 2) {
+        suggestions.push("Add special characters for more strength.");
+        suggestions.push("Consider increasing length to 12+ characters.");
+      } else if (result.score === 3 || result.score === 4) {
+        suggestions.push("Great password! Keep it secure.");
+      }
+
+      return suggestions.join("<br>");
     }
   </script>
 </html>

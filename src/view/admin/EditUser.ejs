@@ -11,7 +11,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!-- Add FontAwesome for icons -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   </head>
   <body class="bg-gray-50 dark:bg-gray-900 h-screen">
@@ -103,17 +103,17 @@
 
      console.log(userId)
 
-      // Password visibility toggle
+
       const togglePassword = document.getElementById('togglePassword');
       const password = document.getElementById('password');
       const eyeIcon = document.getElementById('eyeIcon');
 
       togglePassword.addEventListener('click', function () {
-        // Toggle password visibility
+
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
         
-        // Toggle icon
+
         eyeIcon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
       });
 

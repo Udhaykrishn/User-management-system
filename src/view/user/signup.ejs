@@ -10,6 +10,11 @@
       href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
   </head>
   <body>
     <section class="bg-gray-50 dark:bg-gray-900 h-screen">
@@ -17,7 +22,7 @@
         class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
       >
         <div
-          class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+          class="w-full bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
         >
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1
@@ -25,7 +30,11 @@
             >
               Create an account
             </h1>
-            <form class="space-y-4 md:space-y-6" action="/user/signup" method="post">
+            <form
+              class="space-y-4 md:space-y-6"
+              action="/user/signup"
+              method="post"
+            >
               <div>
                 <label
                   for="email"
@@ -40,34 +49,50 @@
                   placeholder="name@company.com"
                 />
               </div>
+
               <div>
                 <label
                   for="password"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >Password</label
                 >
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
+                <div class="relative">
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  />
+                  <button
+                    type="button"
+                    id="togglePassword"
+                    class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600 dark:text-gray-400 focus:outline-none"
+                  >
+                    <i class="fas fa-eye" id="eyeIcon"></i>
+                  </button>
+                </div>
+                <!-- Password Strength Meter -->
+                <div id="password-strength" class="mt-2 text-sm"></div>
               </div>
+
               <div>
                 <label
                   for="confirm-password"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >Confirm password</label
                 >
-                <input
-                  type="confirm-password"
-                  name="confirm"
-                  id="confirm-password"
-                  placeholder="••••••••"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
+                <div class="relative">
+                  <input
+                    type="password"
+                    name="confirm"
+                    id="confirm-password"
+                    placeholder="••••••••"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  />
+                </div>
               </div>
+
               <button
                 type="submit"
                 class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -87,19 +112,62 @@
         </div>
       </div>
     </section>
-  </body>
 
-  <script>
-    const errorMessage = "<%= error %>";
-    if (errorMessage) {
-      Toastify({
-        text: errorMessage,
-        duration: 2000,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "linear-gradient(to right, #111827, #111827)",
-        stopOnFocus: true,
-      }).showToast();
-    }
-  </script>
+    <script>
+  
+      const errorMessage = "<%= error %>";
+      if (errorMessage) {
+        Toastify({
+          text: errorMessage,
+          duration: 2000,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "linear-gradient(to right, #111827, #111827)",
+          stopOnFocus: true,
+        }).showToast();
+      }
+
+ 
+      const togglePassword = document.getElementById("togglePassword");
+      const password = document.getElementById("password");
+      const eyeIcon = document.getElementById("eyeIcon");
+
+      togglePassword.addEventListener("click", function () {
+        const type =
+          password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        eyeIcon.className =
+          type === "password" ? "fas fa-eye" : "fas fa-eye-slash";
+      });
+
+      function debounce(callback, delay) {
+        let timer = 0;
+        return function () {
+          clearInterval(timer);
+
+          timer = setTimeout(() => callback(), delay);
+        };
+      }
+
+
+      password.addEventListener(
+        "input",
+        debounce(function () {
+          const strengthText = document.getElementById("password-strength");
+          const result = zxcvbn(password.value);
+
+          strengthText.textContent = `Strength: ${
+            ["Weak", "Fair", "Good", "Strong", "Very Strong"][result.score]
+          }`;
+          strengthText.className = `mt-2 text-sm ${
+            result.score <= 1
+              ? "text-red-500"
+              : result.score === 2
+              ? "text-yellow-500"
+              : "text-green-500"
+          }`;
+        }, 400)
+      );
+    </script>
+  </body>
 </html>

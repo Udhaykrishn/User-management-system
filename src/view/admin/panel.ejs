@@ -96,41 +96,42 @@
 
     <script>
       async function deleteUser(id) {
-        try {
-          console.log(id);
-          const data = await fetch(
-            `http://localhost:3001/admin/dashboard/delete/${id}`,
-            {
-              method: "DELETE",
+        if (confirm("Are you sure about delete")) {
+          try {
+            const data = await fetch(
+              `http://localhost:3001/admin/dashboard/delete/${id}`,
+              {
+                method: "DELETE",
+              }
+            );
+
+            const result = await data.json();
+
+            if (result.deleteUser) {
+              Toastify({
+                text: "User deleted successfully",
+                duration: 2000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "linear-gradient(to right, #111827, #111827)",
+                stopOnFocus: true,
+              }).showToast();
+
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
             }
-          );
-
-          const result = await data.json();
-
-          if (result.deleteUser) {
+          } catch (error) {
             Toastify({
-              text: "User deleted successfully",
+              text: "Error deleting user",
               duration: 2000,
               gravity: "top",
               position: "center",
               backgroundColor: "linear-gradient(to right, #111827, #111827)",
               stopOnFocus: true,
             }).showToast();
-
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
+            console.error(error.message);
           }
-        } catch (error) {
-          Toastify({
-            text: "Error deleting user",
-            duration: 2000,
-            gravity: "top",
-            position: "center",
-            backgroundColor: "linear-gradient(to right, #111827, #111827)",
-            stopOnFocus: true,
-          }).showToast();
-          console.error(error.message);
         }
       }
     </script>

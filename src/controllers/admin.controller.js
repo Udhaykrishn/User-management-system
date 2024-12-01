@@ -25,8 +25,6 @@ router
 router.get("/dashboard", restrictToAdmin, async (req, res) => {
   const users = await GetAllUsers();
 
-  console.log(users);
-
   return res.render("admin/panel", { users: users });
 });
 

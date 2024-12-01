@@ -10,15 +10,23 @@ import Admin from "#controller/admin.controller.js";
 import Default from "#controller/main.controller.js";
 import errorHanlder from "#middleware/error.middleware.js";
 import cookieParser from "cookie-parser";
+import { limiter } from "#config/rate-limit.config.js";
+import { Helmet } from "#config/helmet.config.js";
+import cors from "cors";
+import "express-async-errors";
 
 config();
 
 const app = express();
 
+app.use(Helmet);
 app.use(nocache());
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(limiter);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(srcPath, "view"));

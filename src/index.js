@@ -21,13 +21,13 @@ const app = express();
 
 app.use(Helmet);
 app.use(nocache());
+app.use(limiter);
 app.use(express.json());
-app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use(cookieParser());
 
-app.use(limiter);
-
+ 
 app.set("view engine", "ejs");
 app.set("views", path.join(srcPath, "view"));
 

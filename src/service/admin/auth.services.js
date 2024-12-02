@@ -15,10 +15,15 @@ const adminLogin = async (req, res) => {
   }
 
   const user = await findOneAdmin(email);
-  console.log(user);
   if (!user) {
     return res.render("admin/login", {
       error: "Admin is not found",
+    });
+  }
+
+  if (user.password !== password) {
+    return res.render("admin/login", {
+      error: "Password is wrong",
     });
   }
 

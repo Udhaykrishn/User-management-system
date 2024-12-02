@@ -12,7 +12,6 @@ import {
   getCreateUser,
 } from "#service/admin/curd.services.js";
 import { restrictToAdmin } from "#middleware/restrictToAdmin.middleware.js";
-import { GetAllUsers } from "#repositorys/user/user.repository.js";
 import { adminCheck } from "#middleware/admin.middleware.js";
 
 const router = Router();
@@ -22,11 +21,7 @@ router
   .post("/signin", adminLogin)
   .post("/signout", adminLogout);
 
-router.get("/dashboard", restrictToAdmin, async (req, res) => {
-  const users = await GetAllUsers();
-
-  return res.render("admin/panel", { users: users });
-});
+router.get("/dashboard", restrictToAdmin,);
 
 router.get("/dashboard/createUser", restrictToAdmin, getCreateUser);
 router.post("/dashboard/createUser", createOneUser);

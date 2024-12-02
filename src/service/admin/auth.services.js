@@ -37,6 +37,7 @@ const adminLogin = async (req, res) => {
   res.cookie("adminToken", token, {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
+    sameSite:"strict"
   });
 
   return res.redirect("/admin/dashboard");

@@ -3,6 +3,7 @@ import {
   adminLogin,
   getAdminLogin,
   adminLogout,
+  getAdminDashboard,
 } from "#service/admin/auth.services.js";
 import {
   createOneUser,
@@ -21,7 +22,7 @@ router
   .post("/signin", adminLogin)
   .post("/signout", adminLogout);
 
-router.get("/dashboard", restrictToAdmin,);
+router.get("/dashboard", restrictToAdmin, getAdminDashboard);
 
 router.get("/dashboard/createUser", restrictToAdmin, getCreateUser);
 router.post("/dashboard/createUser", createOneUser);

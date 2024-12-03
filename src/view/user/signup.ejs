@@ -73,7 +73,10 @@
                   </button>
                 </div>
                 <div id="password-strength" class="mt-2 text-sm"></div>
-                <div id="password-suggestions" class="text-sm text-gray-500 mt-2"></div>
+                <div
+                  id="password-suggestions"
+                  class="text-sm text-gray-500 mt-2"
+                ></div>
               </div>
 
               <div>
@@ -94,6 +97,7 @@
               </div>
 
               <button
+                id="submit"
                 type="submit"
                 class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
@@ -129,11 +133,14 @@
       const togglePassword = document.getElementById("togglePassword");
       const password = document.getElementById("password");
       const eyeIcon = document.getElementById("eyeIcon");
+      const submitButton = document.querySelector("#submit");
 
       togglePassword.addEventListener("click", function () {
-        const type = password.getAttribute("type") === "password" ? "text" : "password";
+        const type =
+          password.getAttribute("type") === "password" ? "text" : "password";
         password.setAttribute("type", type);
-        eyeIcon.className = type === "password" ? "fas fa-eye" : "fas fa-eye-slash";
+        eyeIcon.className =
+          type === "password" ? "fas fa-eye" : "fas fa-eye-slash";
       });
 
       function debounce(callback, delay) {
@@ -148,14 +155,27 @@
         "input",
         debounce(function () {
           const strengthText = document.getElementById("password-strength");
-          const suggestionsText = document.getElementById("password-suggestions");
+          const suggestionsText = document.getElementById(
+            "password-suggestions"
+          );
 
           const result = zxcvbn(password.value);
 
-          strengthText.textContent = `Strength: ${["Weak", "Fair", "Good", "Strong", "Very Strong"][result.score]}`;
-          strengthText.className = `mt-2 text-sm ${getStrengthClass(result.score)}`;
+          strengthText.textContent = `Strength: ${
+            ["Weak", "Fair", "Good", "Strong", "Very Strong"][result.score]
+          }`;
+          strengthText.className = `mt-2 text-sm ${getStrengthClass(
+            result.score
+          )}`;
 
-          suggestionsText.innerHTML = getSuggestions(result);
+          if (result.score >= 3) {
+            suggestionsText.innerHTML = getSuggestions(result);
+            submitButton.disabled = false;
+            submitButton.style.cursor = "pointer";
+          } else {
+            submitButton.disabled = true;
+            submitButton.style.cursor = "not-allowed";
+          }
         }, 400)
       );
 
@@ -170,7 +190,9 @@
           return "<span class='text-green-500'>Good password!</span>";
         }
         return result.feedback.suggestions
-          .map((suggestion) => `<span class='text-gray-500'>${suggestion}</span>`)
+          .map(
+            (suggestion) => `<span class='text-gray-500'>${suggestion}</span>`
+          )
           .join("<br>");
       }
     </script>

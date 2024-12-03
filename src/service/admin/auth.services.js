@@ -1,5 +1,12 @@
 import { findOneAdmin } from "#repositorys/admin/admin.repository.js";
+import { GetAllUsers } from "#repositorys/user/user.repository.js";
 import { signToken } from "#utility/jwt.utility.js";
+
+const getAdminDashboard = async (req, res) => {
+  const users = await GetAllUsers();
+
+  return res.render("admin/panel", { users: users });
+};
 
 const getAdminLogin = (req, res) => {
   return res.render("admin/login", { error: null });
@@ -37,7 +44,7 @@ const adminLogin = async (req, res) => {
   res.cookie("adminToken", token, {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
-    sameSite:"strict"
+    sameSite: "strict",
   });
 
   return res.redirect("/admin/dashboard");
@@ -48,4 +55,4 @@ const adminLogout = (req, res) => {
   res.redirect("/admin/signin");
 };
 
-export { getAdminLogin, adminLogin, adminLogout };
+export { getAdminLogin, adminLogin, adminLogout, getAdminDashboard };
